@@ -1,4 +1,4 @@
-# Proto-Zero -- SpaceShooter
+# Proto-Zero - SpaceShooter
 
 My first ever Flutter project.
 
