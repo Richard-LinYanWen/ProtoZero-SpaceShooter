@@ -16,7 +16,7 @@ class Player extends SpriteAnimationComponent with CollisionCallbacks, DragCallb
 
   bool enableShooting = true; // control shooting behavior
   double shootCooldown = 0;
-  final double shootInterval = 0.5; // seconds between shots
+  final double shootInterval = 0.7; // seconds between shots
 
   @override
   Future<void> onLoad() async {

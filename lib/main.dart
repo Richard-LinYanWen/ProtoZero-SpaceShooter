@@ -114,6 +114,8 @@ class SpaceShooterGame extends FlameGame with HasCollisionDetection {
   final ValueNotifier<bool> gameOverNotifier = ValueNotifier(false);
 
   int score = 0;
+  int enemiesOneKilled = 0;
+  double enemySpawnRate = 0.5; // seconds between spawns, will decrease as score increases
 
   @override
   Future<void> onLoad() async {
@@ -137,8 +139,8 @@ class SpaceShooterGame extends FlameGame with HasCollisionDetection {
 
     await add(player);
 
-    // Spawn 3 Pascal enemies
-    for (int i = 0; i < 3; i++) {
+    // Spawn 7 Pascal enemies total at start (counting 2+5 from update if screen is empty)
+    for (int i = 0; i < 2; i++) {
       spawnEnemy();
     }
 
@@ -194,7 +196,34 @@ class SpaceShooterGame extends FlameGame with HasCollisionDetection {
       enemySpawnTimer = 0;
     }
 
-    //add score
+    // --- Auto-add 5 enemies if none are on screen ---
+    final currentEnemies = children.whereType<EnemyType1>().toList();
+    if (currentEnemies.isEmpty && !isGameOver) {
+      for (int i = 0; i < 5; i++) {
+        spawnEnemy();
+      }
+    }
+
+    void updateScore(int points) {
+      score += points;
+
+      // Every 10 points, boost spawn rate
+      if (score % 10 == 0 && score != 0) {
+        enemySpawnRate /= 1.5; // decrease interval = increase rate
+      }
+    }
+
+    void enemyOneKilled(EnemyType1 enemy) {
+      enemy.removeFromParent();
+      enemiesOneKilled++;
+
+      updateScore(1);
+
+      // Spawn a new EnemyType1 for every 3 kills
+      if (enemiesOneKilled % 3 == 0) {
+        spawnEnemy();
+      }
+    }
 
     // Collision detection
     for (final enemy in children.whereType<EnemyType1>()) {
@@ -265,7 +294,7 @@ class SpaceShooterGame extends FlameGame with HasCollisionDetection {
     // --- UNSTUCK FIX ---
     Vector2 screenCenter = Vector2(size.x / 2, size.y / 2);
     Vector2 pushDirection = (screenCenter - spawnPos).normalized();
-    enemy.velocity = pushDirection * 75; // adjust speed if needed
+    enemy.velocity = pushDirection * 150; // adjust speed if needed
 
     add(enemy);
   }
