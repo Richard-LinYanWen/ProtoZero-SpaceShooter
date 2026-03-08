@@ -8,6 +8,7 @@ import 'player.dart';
 import 'life_display.dart';
 import 'enemy_type_1.dart';
 import 'projectile.dart';
+import 'background.dart';
 
 void main() {
   runApp(const MyApp());
@@ -121,14 +122,7 @@ class SpaceShooterGame extends FlameGame with HasCollisionDetection {
   Future<void> onLoad() async {
 
     /// Background
-    final bg = await loadSprite('Space_Nebula.png');
-    add(
-      SpriteComponent(
-        sprite: bg,
-        size: size,
-        position: Vector2.zero(),
-      ),
-    );
+    add(Background());
 
     /// Player
     player = Player()
