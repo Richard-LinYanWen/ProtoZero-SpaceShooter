@@ -30,8 +30,8 @@ class EnemyType1 extends SpriteAnimationComponent
     // Give it a random initial velocity
     final rand = Random();
     velocity = Vector2(
-      rand.nextDouble() * 200 - 100, // -100 to 100
-      rand.nextDouble() * 200 - 100,
+      rand.nextDouble() * 400 - 200, // -200 to 200
+      rand.nextDouble() * 400 - 200,
 
     );
     // Add hitbox for collision detection
