@@ -54,7 +54,7 @@ class StartPage extends StatelessWidget {
                   width: 256,
                   height: 256,
                   child: Image.asset(
-                    'assets/images/icon.png',
+                    'assets/images/TitleCard.png',
                     fit: BoxFit.contain,
                     ),
                 ),
